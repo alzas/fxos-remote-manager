@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>JS Bin</title>
+
+    <link rel="stylesheet" type="text/css" href="style/app.css" />
+
+    <script defer src="/js/event-dispatcher.js"></script>
+    <script defer src="/js/websocket-utils.js"></script>
+    <script defer src="/js/transport.js"></script>
+    <script defer src="/js/peer-connection.js"></script>
+    <script defer src="/js/app.js"></script>
+  </head>
+  <body>
+    <div class="device-section">
+      <input
+          id="ws-address"
+          type="text"
+          value="192.168.1.2"
+          required
+          pattern="((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}$"
+      />
+
+      <button id="ws-connect">Connect</button>
+      <p>Connection status: <span id="ws-connection-status"></span><p>
+
+      <label><input id="remote-logging" type="checkbox">Remote logging </label>
+    </div>
+
+    <div class="device-section">
+      <p>Brightness</p>
+      <input id="power-brightness"
+             type="range"
+             min="0"
+             max="1"
+             step="0.005"
+             value="1"
+      /><br/><br/>
+      <label>
+        <input id="power-screen-enabled" type="checkbox" checked>Enable screen
+      </label>
+    </div>
+
+    <div class="device-section">
+      <p>Battery status <button id="refresh-battery-status">Refresh</button></p>
+      Level: <span id="battery-level"></span><br/><br/>
+      Time to discharge: <span id="battery-discharging-time"></span>
+    </div>
+
+    <div class="device-section">
+      <p>Flash mode</p>
+      <select id="flash-mode">
+        <option value="on">On</option>
+        <option value="off">Off</option>
+        <option value="torch">Torch</option>
+      </select>
+      <p>Camera</p>
+      <button id="take-picture">Take picture</button>
+      <img id="camera-picture" /><br />
+      <button id="rtc-connect">Connect to Peer</button>
+      <select id="rtc-facing-mode">
+        <option value="environment">Environment</option>
+        <option value="user">User</option>
+        <option value="left">Left</option>
+        <option value="right">Right</option>
+      </select>
+      <button id="rtc-disconnect" disabled="true">Disconnect from Peer</button>
+      <video id="camera-video" controls="controls"></video>
+    </div>
+  </body>
+</html>
