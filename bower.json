@@ -1,0 +1,22 @@
+{
+  "name": "fxos-remote-manager",
+  "version": "0.0.1",
+  "homepage": "https://github.com/alzas/fxos-remote-manager",
+  "authors": [
+    "Aleh Zasypkin <aleh.zasypkin@gmail.com>"
+  ],
+  "main": "src/index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower.json",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
+  "dependencies": {
+    "alzas-event-dispatcher": "master",
+    "fxos-websocket-server": "master"
+  }
+}

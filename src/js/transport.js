@@ -1,4 +1,4 @@
-/* global WebSocketUtils */
+/* global FxOSWebSocket */
 
 (function(exports) {
   'use strict';
@@ -51,7 +51,7 @@
           message.__blobs = blobs.meta;
         }
 
-        var serializedApplicationMessage = WebSocketUtils.stringToArray(
+        var serializedApplicationMessage = FxOSWebSocket.Utils.stringToArray(
           JSON.stringify(message)
         );
 
@@ -63,7 +63,9 @@
         );
 
         // Write serialized application message length
-        WebSocketUtils.writeUInt16(dataToSend, applicationMessageLength, 0);
+        FxOSWebSocket.Utils.writeUInt16(
+          dataToSend, applicationMessageLength, 0
+        );
 
         // Write serialized application message itself
         dataToSend.set(serializedApplicationMessage, 2);
