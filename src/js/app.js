@@ -34,7 +34,6 @@
 
     var battery = {
       levelLabel: document.getElementById('battery-level'),
-      timeToDischargeLabel: document.getElementById('battery-discharging-time'),
       refreshBtn: document.getElementById('refresh-battery-status')
     };
 
@@ -122,10 +121,11 @@
           return;
         }
 
-        if (message.type === 'battery-status') {
-          battery.levelLabel.textContent = message.value.level;
-          battery.timeToDischargeLabel.textContent =
-            message.value.dischargingTime + ' seconds';
+        if (message.type === 'battery') {
+          if (message.method === 'status') {
+            battery.levelLabel.textContent = message.value.level;
+            return;
+          }
           return;
         }
 
@@ -206,15 +206,10 @@
         type: 'logger',
         method: remoteLoggingInput.checked ? 'on' : 'off'
       });
-
-      /*send({
-        type: 'camera',
-        method: 'capabilities'
-      });*/
     });
 
     battery.refreshBtn.addEventListener('click', function() {
-      send({ type: 'battery-status'});
+      send({ type: 'battery', method: 'status'});
     });
 
     camera.flashModeSelect.addEventListener('change', function() {
@@ -287,7 +282,6 @@
     peer.disconnectBtn.addEventListener('click', function() {
       closePeerConnection();
     });
-
 
     storage.retrieveBtn.addEventListener('click', function() {
       storage.fileList.textContent = '';
