@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" type="text/css" href="style/app.css" />
 
-    <script defer src="/components/alzas-event-dispatcher/dist/event-dispatcher.js"></script>
+    <script defer src="/components/event-dispatcher-js/dist/event-dispatcher.js"></script>
     <script defer src="/components/fxos-websocket-server/dist/fxos-websocket-server.js"></script>
 
     <script defer src="js/transport.js"></script>
@@ -43,13 +43,13 @@
       </label>
     </div>
 
-    <div class="device-section">
+    <section class="device-section">
       <p>Battery status <button id="refresh-battery-status">Refresh</button></p>
       Level: <span id="battery-level"></span><br/><br/>
       Time to discharge: <span id="battery-discharging-time"></span>
-    </div>
+    </section>
 
-    <div class="device-section">
+    <section class="device-section">
       <p>Flash mode</p>
       <select id="flash-mode">
         <option value="on">On</option>
@@ -68,6 +68,13 @@
       </select>
       <button id="rtc-disconnect" disabled="true">Disconnect from Peer</button>
       <video id="camera-video" controls="controls"></video>
-    </div>
+    </section>
+
+    <section>
+      <header>
+        List files <button id="retrieve-file-list">Refresh</button>
+      </header>
+      <ul id="file-list"></ul>
+    </section>
   </body>
 </html>

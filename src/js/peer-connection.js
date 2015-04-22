@@ -1,22 +1,13 @@
 /* global EventDispatcher,
-          Promise
+          Promise,
+          mozRTCPeerConnection,
+          mozRTCSessionDescription,
+          webkitRTCPeerConnection,
+          webkitRTCSessionDescription
 */
 
 (function(exports) {
   'use strict';
-
-  /*
-    mozRTCPeerConnection,
-    mozRTCSessionDescription,
-    webkitRTCPeerConnection,
-    webkitRTCSessionDescription,
-  var getUserMedia = (
-    navigator.mozGetUserMedia ||
-    navigator.webkitGetUserMedia ||
-    navigator.getUserMedia
-  ).bind(navigator);
-  getUserMedia({ video: true, audio: true }, function(stream) {});
-  */
 
   var RTCPeerConnection = window.mozRTCPeerConnection ||
         window.webkitRTCPeerConnection;

@@ -1,4 +1,4 @@
-/* global FxOSWebSocket */
+/* global FxOSWebSocket, Promise */
 
 (function(exports) {
   'use strict';
@@ -15,7 +15,7 @@
 
       result.totalSize += blob.size;
 
-      result.meta.push({ type: blob.type, size: blob.size});
+      result.meta.push({ type: blob.type, size: blob.size });
 
       return blobToArrayBuffer(blob).then(function(buffer) {
         result.data.set(new Uint8Array(buffer), position);

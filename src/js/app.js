@@ -38,6 +38,11 @@
       refreshBtn: document.getElementById('refresh-battery-status')
     };
 
+    var storage = {
+      retrieveBtn: document.getElementById('retrieve-file-list'),
+      fileList: document.getElementById('file-list')
+    };
+
     var connectionStatusLabel = document.getElementById('ws-connection-status');
 
     var connections = window.connections = {
@@ -146,6 +151,37 @@
           }
           return;
         }
+
+        if (message.type === 'storage') {
+          if (message.method === 'list') {
+            message.value.names.forEach(function(name, index) {
+              var li = document.createElement('li');
+
+              var blobUrl = URL.createObjectURL(data.blobs[index]);
+
+              var fileName = document.createElement('a');
+              fileName.textContent = name;
+              fileName.href = blobUrl;
+              fileName.download = name;
+
+              var img = document.createElement('img');
+              img.src = blobUrl;
+
+              var deleteButton = document.createElement('button');
+              deleteButton.type = 'button';
+              deleteButton.textContent = 'Delete';
+              deleteButton.dataset.id = name;
+
+              li.appendChild(fileName);
+              li.appendChild(img);
+              li.appendChild(deleteButton);
+
+              storage.fileList.appendChild(li);
+            });
+            return;
+          }
+          return;
+        }
       };
     });
 
@@ -250,6 +286,29 @@
 
     peer.disconnectBtn.addEventListener('click', function() {
       closePeerConnection();
+    });
+
+
+    storage.retrieveBtn.addEventListener('click', function() {
+      storage.fileList.textContent = '';
+
+      send({
+        type: 'storage',
+        method: 'list',
+        pageSize: 5
+      });
+    });
+
+    storage.fileList.addEventListener('click', function(e) {
+      if (e.target.nodeName.toLowerCase() === 'button') {
+        send({
+          type: 'storage',
+          method: 'delete',
+          value: e.target.dataset.id
+        });
+
+        e.target.closest('li').remove();
+      }
     });
   });
 })(window);
