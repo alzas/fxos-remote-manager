@@ -1,0 +1,44 @@
+.device-section {
+  padding: 1rem;
+}
+
+#camera-picture {
+  display: block;
+  width: 30rem;
+  height: 30rem;
+  object-fit: contain;
+  border: 2px solid red;
+}
+
+#camera-video {
+  display: block;
+  width: 30rem;
+  height: 30rem;
+  border: 2px solid red;
+}
+
+#file-list {
+  max-height: 500px;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0.1rem;
+
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#file-list li {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem;
+}
+
+#file-list img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#file-list a {
+  font-size: 2rem;
+}

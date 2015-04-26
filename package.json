@@ -1,0 +1,25 @@
+{
+  "name": "fxos-remote-manager",
+  "version": "0.0.1",
+  "homepage": "https://github.com/alzas/fxos-remote-manager",
+  "license": "MIT",
+  "main": "dist/index.html",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.8.x",
+    "gulp-babel": "^5.1.x",
+    "browserify": "^9.0.x",
+    "babelify": "^6.0.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/palzas/fxos-remote-managerr.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alzas/fxos-remote-manager/issues"
+  },
+  "browser": {
+    "event-dispatcher-js": "./components/event-dispatcher-js/event-dispatcher.es6.js",
+    "websocket-server-utils": "./components/fxos-websocket-server/src/utils.es6.js"
+  }
+}
