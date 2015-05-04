@@ -7,10 +7,11 @@
 
 import EventDispatcher from 'event-dispatcher-js';
 
-var RTCPeerConnection = mozRTCPeerConnection || webkitRTCPeerConnection;
+var RTCPeerConnection = window.mozRTCPeerConnection ||
+  window.webkitRTCPeerConnection;
 
-var RTCSessionDescription = mozRTCSessionDescription ||
-  webkitRTCSessionDescription;
+var RTCSessionDescription = window.mozRTCSessionDescription ||
+  window.webkitRTCSessionDescription;
 
 var privates = {
   connection: Symbol('connection'),

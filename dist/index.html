@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <title>JS Bin</title>
 
-    <link rel="stylesheet" type="text/css" href="app.css" />
-    <script defer src="app.js"></script>
+    <link rel="stylesheet" type="text/css" href="style/app.css" />
+    <script defer src="js/app.js"></script>
   </head>
   <body>
     <div class="device-section">
@@ -50,7 +50,16 @@
         <option value="torch">Torch</option>
       </select>
       <p>Camera</p>
-      <button id="take-picture">Take picture</button>
+      <button id="take-picture">Take picture</button><br />
+      <button id="take-picture-every">Take picture every</button>
+      <input id="interval-value" type="number" min="1" />
+      <select id="interval-type">
+        <option value="sec">second</option>
+        <option value="min">minute</option>
+        <option value="hour">hour</option>
+      </select>
+      <br />
+      <button id="stop-taking-picture">Stop taking pictures</button>
       <img id="camera-picture" /><br />
       <button id="rtc-connect">Connect to Peer</button>
       <select id="rtc-facing-mode">

@@ -5,6 +5,12 @@
 import Transport from './transport.es6.js';
 import PeerConnection from './peer-connection.es6.js';
 
+var getUserMedia = (
+  navigator.mozGetUserMedia ||
+  navigator.webkitGetUserMedia ||
+  navigator.getUserMedia
+).bind(navigator);
+
 window.addEventListener('load', function() {
   var connectBtn = document.getElementById('ws-connect');
 
@@ -26,7 +32,11 @@ window.addEventListener('load', function() {
     flashModeSelect: document.getElementById('flash-mode'),
     takePictureBtn: document.getElementById('take-picture'),
     cameraPictureImg: document.getElementById('camera-picture'),
-    cameraVideo: document.getElementById('camera-video')
+    cameraVideo: document.getElementById('camera-video'),
+    startTracking: document.getElementById('take-picture-every'),
+    trackingInterval: document.getElementById('interval-value'),
+    trackingIntervalType: document.getElementById('interval-type'),
+    stopTracking: document.getElementById('stop-taking-picture')
   };
 
   var battery = {
@@ -234,6 +244,24 @@ window.addEventListener('load', function() {
     });
   });
 
+  camera.startTracking.addEventListener('click', () => {
+    send({
+      type: 'camera',
+      method: 'tracking-start',
+      value: {
+        interval: Number.parseInt(camera.trackingInterval.value, 10),
+        type: camera.trackingIntervalType.value
+      }
+    });
+  });
+
+  camera.stopTracking.addEventListener('click', () => {
+    send({
+      type: 'camera',
+      method: 'tracking-stop'
+    });
+  });
+
   peer.connectBtn.addEventListener('click', function() {
     connections.peer = new PeerConnection();
 
@@ -262,7 +290,7 @@ window.addEventListener('load', function() {
       camera.cameraVideo.play();
     });
 
-    navigator.mozGetUserMedia({ video: true, fake: true }, function(stream) {
+    getUserMedia({ video: true, fake: true }, function(stream) {
       connections.peer.addStream(stream);
 
       connections.peer.createOffer({
