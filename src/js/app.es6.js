@@ -31,12 +31,16 @@ window.addEventListener('load', function() {
   var camera = {
     flashModeSelect: document.getElementById('flash-mode'),
     takePictureBtn: document.getElementById('take-picture'),
+    releaseBtn: document.getElementById('camera-release'),
     cameraPictureImg: document.getElementById('camera-picture'),
-    cameraVideo: document.getElementById('camera-video'),
-    startTracking: document.getElementById('take-picture-every'),
-    trackingInterval: document.getElementById('interval-value'),
-    trackingIntervalType: document.getElementById('interval-type'),
-    stopTracking: document.getElementById('stop-taking-picture')
+    cameraVideo: document.getElementById('camera-video')
+  };
+
+  var tracking = {
+    startBtn: document.getElementById('take-picture-every'),
+    stopBtn: document.getElementById('stop-taking-picture'),
+    interval: document.getElementById('interval-value'),
+    intervalType: document.getElementById('interval-type')
   };
 
   var battery = {
@@ -123,8 +127,8 @@ window.addEventListener('load', function() {
       var data = Transport.receive(e.data);
       var message = data.message;
 
-      if (message.type === 'console') {
-        console[message.method].apply(console, message.args);
+      if (message.type === 'logger' && message.method === 'log') {
+        console[message.value.method].apply(console, message.value.args);
         return;
       }
 
@@ -223,7 +227,10 @@ window.addEventListener('load', function() {
     send({
       type: 'camera',
       method: 'flash-mode',
-      value: camera.flashModeSelect.value
+      value: {
+        cameraType: 'back',
+        flashMode: camera.flashModeSelect.value
+      }
     });
   });
 
@@ -240,25 +247,45 @@ window.addEventListener('load', function() {
 
     send({
       type: 'camera',
-      method: 'take-picture'
+      method: 'take-picture',
+      value: 'back' /* cameraType */
     });
   });
 
-  camera.startTracking.addEventListener('click', () => {
+  camera.releaseBtn.addEventListener('click', function() {
+    if (connections.peer) {
+      var confirmMessage =
+          'Peer connection is active! Do you want to close it?';
+      if(window.confirm(confirmMessage)) {
+        closePeerConnection();
+      } else {
+        return;
+      }
+    }
+
     send({
       type: 'camera',
-      method: 'tracking-start',
+      method: 'release',
+      value: 'back' /* cameraType */
+    });
+  });
+
+  tracking.startBtn.addEventListener('click', () => {
+    send({
+      type: 'tracking',
+      method: 'start',
       value: {
-        interval: Number.parseInt(camera.trackingInterval.value, 10),
-        type: camera.trackingIntervalType.value
+        cameraType: 'back',
+        interval: Number.parseInt(tracking.interval.value, 10),
+        type: tracking.intervalType.value
       }
     });
   });
 
-  camera.stopTracking.addEventListener('click', () => {
+  tracking.stopBtn.addEventListener('click', () => {
     send({
-      type: 'camera',
-      method: 'tracking-stop'
+      type: 'tracking',
+      method: 'stop'
     });
   });
 
@@ -277,10 +304,12 @@ window.addEventListener('load', function() {
           type: 'peer',
           method: 'offer',
           value: {
-            type: offer.type,
-            sdp: offer.sdp
-          },
-          facingMode: peer.facingMode.value
+            facingMode: peer.facingMode.value,
+            offer: {
+              type: offer.type,
+              sdp: offer.sdp
+            }
+          }
         });
       }
     });
@@ -294,8 +323,8 @@ window.addEventListener('load', function() {
       connections.peer.addStream(stream);
 
       connections.peer.createOffer({
-        offerToReceiveAudio: true,
-        offerToReceiveVideo: true
+        offerToReceiveAudio: 1,
+        offerToReceiveVideo: 1
       });
     }, function(e) {
       console.error(e);
@@ -316,7 +345,7 @@ window.addEventListener('load', function() {
     send({
       type: 'storage',
       method: 'list',
-      pageSize: 5
+      value: 5 /* pageSize */
     });
   });
 
