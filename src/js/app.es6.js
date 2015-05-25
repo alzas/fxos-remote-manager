@@ -294,10 +294,12 @@ window.addEventListener('load', function() {
       connections.peer.addStream(stream);
 
       connections.peer.createOffer({
-        offerToReceiveAudio: false,
+        offerToReceiveAudio: true,
         offerToReceiveVideo: true
       });
-    }, function(e) {});
+    }, function(e) {
+      console.error(e);
+    });
 
     peer.connectBtn.disabled = true;
     peer.disconnectBtn.disabled = false;
